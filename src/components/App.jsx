@@ -1,4 +1,4 @@
-import styles from './app.module.css'
+import './app.module.css'
 
 import Feedback from './Feedback';
 
