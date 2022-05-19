@@ -1,0 +1,16 @@
+.list {
+  display: flex;
+  justify-content: center;
+}
+.item {
+  border: 1px solid black;
+  padding: 2px 10px;
+  border-radius: 10px;
+  background-color: pink;
+}
+.item:not(:last-child) {
+  margin-right: 5px;
+}
+.value {
+  font-weight: 700;
+}
