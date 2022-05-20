@@ -5,56 +5,46 @@ import FeedbackOptions from './FeedbackOptions'
 import Section from '../Section'
 import Notification from '../Notification'
 
+
+const options = ['good', 'neutral', 'bad']
+
 class Feedback extends Component {
   state = {
     good: 0,
     neutral: 0,
     bad: 0,
-    total: 0,
-    positivePercentage: 0
   }
 
-  increaseRating = (rating) => {
-
+  onLeaveFeedback = (option) => {
     this.setState(prevState => {
       return {
-        [rating]: prevState[rating] + 1
+        [option]: prevState[option] + 1
       }
     })
-
-    this.countTotalFeedback()
-    this.countPositiveFeedbackPercentage()
   }
 
   countTotalFeedback() {
-    this.setState(({ good, neutral, bad}) => {
-      return {
-        total: good + neutral + bad
-      }   
-    })
+    const {good, neutral, bad} = this.state
+    return (good + neutral + bad);
   }
 
   countPositiveFeedbackPercentage() {
-    this.setState(({ total, good }) => {
-      return {
-        positivePercentage: Math.round((good / total) * 100)
-      }
-    })
+        return Math.round((this.state.good / this.countTotalFeedback()) * 100)
   }
 
   render() {
-    const {good, neutral, bad, total, positivePercentage } = this.state
-
+    const { good, neutral, bad } = this.state
+    let total = this.countTotalFeedback()
+    let positivePercentage = this.countPositiveFeedbackPercentage()
     return (
       <>
         <Section title='Please leave feedback'>
-          <FeedbackOptions increaseRating={this.increaseRating} />
+          <FeedbackOptions options={options} onLeaveFeedback={this.onLeaveFeedback} />
         </Section>
-        {total > 0 ? <Section title='Statistics'>
+        {!total && <Notification message="There is no feedback" />}
+        {total > 0 && <Section title='Statistics'>
           <Statistics good={good} neutral={neutral} bad={bad} total={total} positivePercentage={positivePercentage} />
-        </Section> : <Notification message="There is no feedback" />}
-        
-        
+        </Section>}
       </>
     )
   }

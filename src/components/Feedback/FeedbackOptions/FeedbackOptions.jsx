@@ -3,24 +3,17 @@ import PropTypes from 'prop-types'
 import s from './feedbackOptions.module.css'
 
 
-const FeedbackOptions = ({increaseRating}) => {
+const FeedbackOptions = ({ options, onLeaveFeedback }) => {
+  const elements = options.map((option, index) => {
+    return (<li className={s.item} key={index}>
+      <button className={s.btn} type='button' onClick={() => 
+        onLeaveFeedback(option)
+      }>{option}</button>
+    </li>)
+  })
   return (
     <ul className={s.list}>
-      <li className={s.item}>
-        <button className={s.btn} type='button' onClick={() => {
-          increaseRating('good')
-        }}>Good</button>
-      </li>
-      <li className={s.item}>
-        <button className={s.btn} type='button' onClick={() => {
-          increaseRating('neutral')
-        }}>Neutral</button>
-      </li>
-      <li className={s.item}>
-        <button className={s.btn} type='button' onClick={() => {
-          increaseRating('bad')
-        }}>Bad</button>
-      </li>
+      {elements}
     </ul>
   )
 }
@@ -28,5 +21,5 @@ const FeedbackOptions = ({increaseRating}) => {
 export default FeedbackOptions
 
 FeedbackOptions.propTypes = {
-  increaseRating: PropTypes.func.isRequired
+  onLeaveFeedback: PropTypes.func.isRequired
 }
